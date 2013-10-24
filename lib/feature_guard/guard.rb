@@ -5,6 +5,10 @@ module FeatureGuard; class Guard
     @feature_name = _feature_name
   end
 
+  def disable
+    redis.set(flag_key, 0)
+  end
+
   def enable
     redis.set(flag_key, 1)
   end
@@ -13,6 +17,10 @@ module FeatureGuard; class Guard
     redis.get(flag_key).tap { |v| return (!v.nil? && v.to_i > 0) }
   rescue
     false
+  end
+
+  def toggle
+    enabled? ? disable : enable
   end
 
   private

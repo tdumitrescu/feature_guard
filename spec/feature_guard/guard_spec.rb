@@ -17,4 +17,11 @@ describe FeatureGuard::Guard do
       it { should be_true }
     end
   end
+
+  describe '#toggle' do
+    it 'toggles the feature on or off' do
+      expect { guard.toggle }.to change { guard.enabled? }.from(false).to(true)
+      expect { guard.toggle }.to change { guard.enabled? }.from(true).to(false)
+    end
+  end
 end
