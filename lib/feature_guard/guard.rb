@@ -5,6 +5,7 @@ module FeatureGuard; class Guard
     @feature_name = _feature_name
   end
 
+  # binary flag methods (enabled/disabled)
   def disable
     redis.set(flag_key, 0)
   end
@@ -23,6 +24,28 @@ module FeatureGuard; class Guard
     enabled? ? disable : enable
   end
 
+  # ramp methods (0.0 .. 100.0)
+  def allow?(val = nil)
+    val = val.nil? ? random_val : hashed_val(val)
+    val < ramp_val
+  end
+
+  def bump_ramp(amount = 10.0)
+    set_ramp(ramp_val + amount)
+  end
+
+  def ramp_val
+    redis.get(ramp_key).to_f
+  end
+
+  def set_ramp(new_val)
+    new_val = new_val.to_f
+    new_val = 100.0 if new_val > 100.0
+    new_val = 0.0   if new_val < 0.0
+
+    redis.set(ramp_key, new_val)
+  end
+
   private
 
   def feature_key
@@ -35,6 +58,14 @@ module FeatureGuard; class Guard
 
   def ramp_key
     @ramp_key ||= "fgr_#{feature_key}"
+  end
+
+  def hashed_val(s)
+    (Digest::MD5.hexdigest("#{ramp_key}_#{s}").to_i(16) % 10000).to_f / 100.0
+  end
+
+  def random_val
+    rand * 100.0
   end
 
   def redis
