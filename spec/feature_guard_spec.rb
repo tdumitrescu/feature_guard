@@ -19,6 +19,24 @@ describe FeatureGuard do
     end
   end
 
+  describe 'ramping a feature up and down' do
+    let(:user_id) { 5435 }
+
+    it 'allows a percentage of calls to use the feature' do
+      expect {
+        FeatureGuard.set_ramp feature, 100.0
+      }.to change {
+        FeatureGuard.allow? feature, user_id
+      }.from(false).to(true)
+
+      expect {
+        FeatureGuard.set_ramp feature, 0.0
+      }.to change {
+        FeatureGuard.allow? feature, user_id
+      }.from(true).to(false)
+    end
+  end
+
   describe '.enabled?' do
     subject { FeatureGuard.enabled? feature }
 
