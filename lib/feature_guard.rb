@@ -1,3 +1,5 @@
+require "redis" unless defined? Redis
+
 require "feature_guard/version"
 require "feature_guard/guard"
 
