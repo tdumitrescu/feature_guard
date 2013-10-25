@@ -44,6 +44,7 @@ module FeatureGuard; class Guard
     new_val = 0.0   if new_val < 0.0
 
     redis.set(ramp_key, new_val)
+    new_val
   end
 
   private

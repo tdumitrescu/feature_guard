@@ -1,7 +1,7 @@
 require "spec_helper"
 
 describe FeatureGuard::Guard do
-  let(:feature) { 'exciting new code'}
+  let(:feature) { 'exciting new code' }
   let(:guard)   { FeatureGuard::Guard.new(feature) }
 
   describe '#allow?' do
@@ -61,14 +61,16 @@ describe FeatureGuard::Guard do
       expect { subject }.to change { guard.ramp_val }.to new_val
     end
 
+    it 'returns the new ramp value' do
+      expect(subject).to eq new_val
+    end
+
     it 'does not set the value above 100.0' do
-      guard.set_ramp 190.0
-      expect(guard.ramp_val).to eq 100.0
+      expect(guard.set_ramp 190.0).to eq 100.0
     end
 
     it 'does not set the value below 0.0' do
-      guard.set_ramp -190.0
-      expect(guard.ramp_val).to eq 0.0
+      expect(guard.set_ramp -190.0).to eq 0.0
     end
   end
 
