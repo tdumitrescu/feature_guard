@@ -1,3 +1,5 @@
+[![Build Status](https://api.travis-ci.org/tdumitrescu/feature_guard.png)](https://travis-ci.org/tdumitrescu/feature_guard)
+
 # FeatureGuard
 
 Lightweight Redis-based feature-flagging for Ruby apps. Provides a simple syntax for enabling and disabling features, or gradually ramping up and down by enabling features for a percentage of total traffic.
