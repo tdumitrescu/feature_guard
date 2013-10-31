@@ -6,8 +6,8 @@ Gem::Specification.new do |gem|
   gem.email         = ["miscmisc@cmme.org"]
   gem.summary       = %q{Simple Redis-based feature-flagging}
   gem.description   = <<end
-Turn code on or off with Redis controls, allowing simple enabled/disabled states 
-as well as finer-grained percentage-based control.
+Feature flags made simple: turn code on or off with Redis controls, allowing
+plain enabled/disabled states as well as finer-grained percentage-based control.
 end
   gem.homepage      = "https://github.com/tdumitrescu/feature_guard"
 
