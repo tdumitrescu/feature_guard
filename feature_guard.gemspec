@@ -10,6 +10,7 @@ Feature flags made simple: turn code on or off with Redis controls, allowing
 plain enabled/disabled states as well as finer-grained percentage-based control.
 end
   gem.homepage      = "https://github.com/tdumitrescu/feature_guard"
+  gem.license       = "MIT"
 
   gem.files         = `git ls-files`.split($\)
   gem.executables   = gem.files.grep(%r{^bin/}).map{ |f| File.basename(f) }
