@@ -80,4 +80,30 @@ describe FeatureGuard::Guard do
       expect { guard.toggle }.to change { guard.enabled? }.from(true).to(false)
     end
   end
+
+  describe '#flags' do
+    before { guard.enable }
+
+    subject { FeatureGuard.flags }
+
+    it 'returns all the flags' do
+      expect(subject.keys).to include(feature.to_s)
+    end
+  end
+
+  describe '#ramps' do
+    let(:val) { 10.0 }
+
+    before { guard.set_ramp val }
+
+    subject { FeatureGuard.ramps }
+
+    it 'returns all the flags' do
+      expect(subject.keys).to include(feature.to_s)
+    end
+
+    it 'returns all the ramp values' do
+      expect(subject.values).to include(val.to_s)
+    end
+  end
 end
