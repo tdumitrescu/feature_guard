@@ -12,7 +12,7 @@ describe FeatureGuard::Guard do
 
       it 'uses a random value' do
         expect(guard).to receive(:random_val).and_return(29.9)
-        expect(subject).to be_true
+        expect(subject).to eq(true)
       end
     end
 
@@ -21,7 +21,7 @@ describe FeatureGuard::Guard do
 
       it 'hashes the value together with the feature name' do
         expect(guard).to receive(:hashed_val).and_return(30.1)
-        expect(subject).to be_false
+        expect(subject).to eq(false)
       end
     end
   end
@@ -42,13 +42,13 @@ describe FeatureGuard::Guard do
     subject { guard.enabled? }
 
     context 'for a non-existent flag' do
-      it { should be_false }
+      it { is_expected.to eq(false) }
     end
 
     context 'for an enabled flag' do
       before { guard.enable }
 
-      it { should be_true }
+      it { is_expected.to eq(true) }
     end
   end
 
@@ -84,7 +84,7 @@ describe FeatureGuard::Guard do
   describe '#flags' do
     before { guard.enable }
 
-    subject { FeatureGuard.flags }
+    subject { guard.flags }
 
     it 'returns all the flags' do
       expect(subject.keys).to include(feature.to_s)
@@ -96,7 +96,7 @@ describe FeatureGuard::Guard do
 
     before { guard.set_ramp val }
 
-    subject { FeatureGuard.ramps }
+    subject { guard.ramps }
 
     it 'returns all the flags' do
       expect(subject.keys).to include(feature.to_s)
