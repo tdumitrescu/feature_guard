@@ -41,13 +41,13 @@ describe FeatureGuard do
     subject { FeatureGuard.enabled? feature }
 
     context 'for a non-existent flag' do
-      it { should be_false }
+      it { is_expected.to eq(false) }
     end
 
     context 'when the Redis client blows up or is non-existent' do
       before { FeatureGuard.stub(redis: nil) }
 
-      it { should be_false }
+      it { is_expected.to eq(false) }
     end
   end
 end

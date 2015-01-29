@@ -7,15 +7,15 @@ module FeatureGuard; class Guard
 
   # binary flag methods (enabled/disabled)
   def disable
-    redis.set(flag_key, 0)
+    redis.hset(flags_hkey, feature_name, 0)
   end
 
   def enable
-    redis.set(flag_key, 1)
+    redis.hset(flags_hkey, feature_name, 1)
   end
 
   def enabled?
-    redis.get(flag_key).tap { |v| return (!v.nil? && v.to_i > 0) }
+    redis.hget(flags_hkey, feature_name).tap { |v| return (!v.nil? && v.to_i > 0) }
   rescue
     false
   end
@@ -35,7 +35,7 @@ module FeatureGuard; class Guard
   end
 
   def ramp_val
-    redis.get(ramp_key).to_f
+    redis.hget(ramps_hkey, feature_name).to_f
   end
 
   def set_ramp(new_val)
@@ -43,26 +43,22 @@ module FeatureGuard; class Guard
     new_val = 100.0 if new_val > 100.0
     new_val = 0.0   if new_val < 0.0
 
-    redis.set(ramp_key, new_val)
+    redis.hset(ramps_hkey, feature_name, new_val)
     new_val
+  end
+
+  def flags
+    redis.hgetall(flags_hkey)
+  end
+
+  def ramps
+    redis.hgetall(ramps_hkey)
   end
 
   private
 
-  def feature_key
-    @feature_key ||= feature_name.to_s.split.join('_')
-  end
-
-  def flag_key
-    @flag_key ||= "fgf_#{feature_key}"
-  end
-
-  def ramp_key
-    @ramp_key ||= "fgr_#{feature_key}"
-  end
-
   def hashed_val(s)
-    (Digest::MD5.hexdigest("#{ramp_key}_#{s}").to_i(16) % 10000).to_f / 100.0
+    (Digest::MD5.hexdigest("#{feature_name}_#{s}").to_i(16) % 10000).to_f / 100.0
   end
 
   def random_val
@@ -71,5 +67,13 @@ module FeatureGuard; class Guard
 
   def redis
     FeatureGuard.redis
+  end
+
+  def flags_hkey
+    "featureguard_flags"
+  end
+
+  def ramps_hkey
+    "featureguard_ramps"
   end
 end; end
