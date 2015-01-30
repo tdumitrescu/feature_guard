@@ -101,10 +101,8 @@ describe FeatureGuard::Guard do
   end
 
   describe '#ramps' do
-    let(:val) { 10.0 }
-
     before do
-      guard.set_ramp val
+      guard.set_ramp 10.0
       FeatureGuard::Guard.new('another feature').set_ramp 30
     end
 
@@ -113,7 +111,8 @@ describe FeatureGuard::Guard do
     it_behaves_like 'returns all flags'
 
     it 'returns all the ramp values' do
-      expect(subject.values).to include(val.to_s)
+      expect(subject[feature]).to eq('10.0')
+      expect(subject['another feature']).to eq('30.0')
     end
   end
 end
