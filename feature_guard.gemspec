@@ -22,5 +22,5 @@ end
   gem.add_dependency "redis", "~> 3.0"
 
   gem.add_development_dependency "fakeredis", "~> 0.4"
-  gem.add_development_dependency "rspec",     "~> 2.13"
+  gem.add_development_dependency "rspec",     "~> 2.99"
 end
