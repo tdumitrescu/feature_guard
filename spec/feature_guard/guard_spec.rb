@@ -81,6 +81,14 @@ describe FeatureGuard::Guard do
     end
   end
 
+  shared_examples_for 'returns all flags' do
+    it 'returns all flags' do
+      expect(subject.keys.size).to eq(2)
+      expect(subject.keys).to include(feature)
+      expect(subject.keys).to include('another feature')
+    end
+  end
+
   describe '#flags' do
     before do
       guard.enable
@@ -89,23 +97,20 @@ describe FeatureGuard::Guard do
 
     subject { guard.flags }
 
-    it 'returns all the flags' do
-      expect(subject.keys.size).to eq(2)
-      expect(subject.keys).to include(feature.to_s)
-      expect(subject.keys).to include('another feature')
-    end
+    it_behaves_like 'returns all flags'
   end
 
   describe '#ramps' do
     let(:val) { 10.0 }
 
-    before { guard.set_ramp val }
+    before do
+      guard.set_ramp val
+      FeatureGuard::Guard.new('another feature').set_ramp 30
+    end
 
     subject { guard.ramps }
 
-    it 'returns all the flags' do
-      expect(subject.keys).to include(feature.to_s)
-    end
+    it_behaves_like 'returns all flags'
 
     it 'returns all the ramp values' do
       expect(subject.values).to include(val.to_s)
