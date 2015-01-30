@@ -82,12 +82,17 @@ describe FeatureGuard::Guard do
   end
 
   describe '#flags' do
-    before { guard.enable }
+    before do
+      guard.enable
+      FeatureGuard::Guard.new('another feature').enable
+    end
 
     subject { guard.flags }
 
     it 'returns all the flags' do
+      expect(subject.keys.size).to eq(2)
       expect(subject.keys).to include(feature.to_s)
+      expect(subject.keys).to include('another feature')
     end
   end
 
