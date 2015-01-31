@@ -11,7 +11,8 @@ module FeatureGuard
       @redis ||= Redis.new
     end
 
-    [:allow?, :bump_ramp, :disable, :enable, :flags, :toggle, :enabled?, :ramps, :ramp_val, :set_ramp].each do |mname|
+    [:allow?, :bump_ramp, :disable, :enable, :flags, :toggle, :enabled?,
+     :ramp_val, :ramps, :set_ramp].each do |mname|
       define_method(mname) do |key, *args|
         Guard.new(key).send(mname, *args)
       end
