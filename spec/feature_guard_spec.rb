@@ -60,4 +60,14 @@ describe FeatureGuard do
       }.from({}).to({feature.to_s => "1"})
     end
   end
+
+  describe '.all_ramps' do
+    it 'returns information on ramped flags' do
+      expect {
+        FeatureGuard.set_ramp feature, 50
+      }.to change {
+        FeatureGuard.all_ramps
+      }.from({}).to({feature.to_s => "50.0"})
+    end
+  end
 end
