@@ -50,4 +50,14 @@ describe FeatureGuard do
       it { is_expected.to eq(false) }
     end
   end
+
+  describe '.all_flags' do
+    it 'returns information on enabled flags' do
+      expect {
+        FeatureGuard.enable feature
+      }.to change {
+        FeatureGuard.all_flags
+      }.from({}).to({feature.to_s => "1"})
+    end
+  end
 end
