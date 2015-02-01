@@ -60,6 +60,25 @@ FeatureGuard.allow? :my_feature
 
 The optional second argument to`.allow?` can be of any type (e.g., user ID or name or even an object). It is hashed with the feature name to create a reproducible numeric value for checking whether to return true or false based on the current ramp-up value. With no second argument, `.allow?` uses a new random value on every call.
 
+To retrieve information on all binary-enabled/disabled features, use `.all_flags`:
+
+```ruby
+FeatureGuard.enable :my_feature
+FeatureGuard.enable :another_feature
+FeatureGuard.toggle :my_feature
+FeatureGuard.all_flags
+# {"my_feature"=>"0", "another_feature"=>"1"}
+```
+
+To retrieve information on all ramp values, use `.all_ramps`:
+
+```ruby
+FeatureGuard.set_ramp :my_feature, 50
+FeatureGuard.set_ramp :another_feature, 30
+FeatureGuard.all_ramps
+# {"my_feature"=>"50.0", "another_feature"=>"30.0"}
+```
+
 ## Configuration
 
 Optionally change the Redis client with:
