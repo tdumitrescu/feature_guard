@@ -7,15 +7,15 @@ module FeatureGuard; class Guard
 
   # binary flag methods (enabled/disabled)
   def disable
-    redis.hset(flags_hkey, feature_name, 0)
+    redis.hset(FeatureGuard.flags_hkey, feature_name, 0)
   end
 
   def enable
-    redis.hset(flags_hkey, feature_name, 1)
+    redis.hset(FeatureGuard.flags_hkey, feature_name, 1)
   end
 
   def enabled?
-    redis.hget(flags_hkey, feature_name).tap { |v| return (!v.nil? && v.to_i > 0) }
+    redis.hget(FeatureGuard.flags_hkey, feature_name).tap { |v| return (!v.nil? && v.to_i > 0) }
   rescue
     false
   end
@@ -35,7 +35,7 @@ module FeatureGuard; class Guard
   end
 
   def ramp_val
-    redis.hget(ramps_hkey, feature_name).to_f
+    redis.hget(FeatureGuard.ramps_hkey, feature_name).to_f
   end
 
   def set_ramp(new_val)
@@ -43,16 +43,8 @@ module FeatureGuard; class Guard
     new_val = 100.0 if new_val > 100.0
     new_val = 0.0   if new_val < 0.0
 
-    redis.hset(ramps_hkey, feature_name, new_val)
+    redis.hset(FeatureGuard.ramps_hkey, feature_name, new_val)
     new_val
-  end
-
-  def flags
-    redis.hgetall(flags_hkey)
-  end
-
-  def ramps
-    redis.hgetall(ramps_hkey)
   end
 
   private
@@ -67,13 +59,5 @@ module FeatureGuard; class Guard
 
   def redis
     FeatureGuard.redis
-  end
-
-  def flags_hkey
-    "featureguard_flags"
-  end
-
-  def ramps_hkey
-    "featureguard_ramps"
   end
 end; end
