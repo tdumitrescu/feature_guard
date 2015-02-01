@@ -52,6 +52,8 @@ describe FeatureGuard do
   end
 
   describe '.all_flags' do
+    subject { FeatureGuard.all_flags }
+
     it 'returns information on enabled flags' do
       expect {
         FeatureGuard.enable feature
@@ -59,15 +61,33 @@ describe FeatureGuard do
         FeatureGuard.all_flags
       }.from({}).to({feature.to_s => "1"})
     end
+
+    it 'returns information on multiple flags' do
+      FeatureGuard.enable feature
+      FeatureGuard.enable 'another feature'
+      expect(subject.keys.size).to eq(2)
+      expect(subject.keys).to include(feature.to_s)
+      expect(subject.keys).to include('another feature')
+    end
   end
 
   describe '.all_ramps' do
+    subject { FeatureGuard.all_ramps }
+
     it 'returns information on ramped flags' do
       expect {
         FeatureGuard.set_ramp feature, 50
       }.to change {
         FeatureGuard.all_ramps
       }.from({}).to({feature.to_s => "50.0"})
+    end
+
+    it 'returns information on multiple flags' do
+      FeatureGuard.set_ramp feature, 99
+      FeatureGuard.set_ramp 'another feature', 33
+      expect(subject.keys.size).to eq(2)
+      expect(subject.keys).to include(feature.to_s)
+      expect(subject.keys).to include('another feature')
     end
   end
 end

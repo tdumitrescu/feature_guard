@@ -80,39 +80,4 @@ describe FeatureGuard::Guard do
       expect { guard.toggle }.to change { guard.enabled? }.from(true).to(false)
     end
   end
-
-  shared_examples_for 'returns all flags' do
-    it 'returns all flags' do
-      expect(subject.keys.size).to eq(2)
-      expect(subject.keys).to include(feature)
-      expect(subject.keys).to include('another feature')
-    end
-  end
-
-  describe '#flags' do
-    before do
-      guard.enable
-      FeatureGuard::Guard.new('another feature').enable
-    end
-
-    subject { guard.flags }
-
-    it_behaves_like 'returns all flags'
-  end
-
-  describe '#ramps' do
-    before do
-      guard.set_ramp 10.0
-      FeatureGuard::Guard.new('another feature').set_ramp 30
-    end
-
-    subject { guard.ramps }
-
-    it_behaves_like 'returns all flags'
-
-    it 'returns all the ramp values' do
-      expect(subject[feature]).to eq('10.0')
-      expect(subject['another feature']).to eq('30.0')
-    end
-  end
 end
