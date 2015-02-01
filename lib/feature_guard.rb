@@ -8,11 +8,11 @@ module FeatureGuard
     attr_writer :redis
 
     def all_flags
-      redis.hgetall(FeatureGuard.flags_hkey)
+      redis.hgetall(flags_hkey)
     end
 
     def all_ramps
-      redis.hgetall(FeatureGuard.ramps_hkey)
+      redis.hgetall(ramps_hkey)
     end
 
     def flags_hkey
