@@ -55,10 +55,10 @@ describe FeatureGuard do
     it 'returns information on both enabled and ramped flags' do
       expect {
         FeatureGuard.enable feature
-        FeatureGuard.set_ramp 'another feature', 35
+        FeatureGuard.set_ramp 'another feature', 35.7
       }.to change {
         FeatureGuard.all_features
-      }.from({}).to({feature.to_s => true, 'another feature' => 35.0})
+      }.from({}).to({feature.to_s => true, 'another feature' => 35.7})
     end
   end
 
@@ -70,7 +70,7 @@ describe FeatureGuard do
         FeatureGuard.enable feature
       }.to change {
         FeatureGuard.all_flags
-      }.from({}).to({feature.to_s => "1"})
+      }.from({}).to({feature.to_s => true})
     end
 
     it 'returns information on multiple flags' do
@@ -90,7 +90,7 @@ describe FeatureGuard do
         FeatureGuard.set_ramp feature, 50
       }.to change {
         FeatureGuard.all_ramps
-      }.from({}).to({feature.to_s => "50.0"})
+      }.from({}).to({feature.to_s => 50.0})
     end
 
     it 'returns information on multiple flags' do
