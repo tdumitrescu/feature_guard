@@ -3,7 +3,7 @@ require File.expand_path('../lib/feature_guard/version', __FILE__)
 
 Gem::Specification.new do |gem|
   gem.authors       = ["Ted Dumitrescu"]
-  gem.email         = ["miscmisc@cmme.org"]
+  gem.email         = ["webdev@cmme.org"]
   gem.summary       = %q{Simple Redis-based feature-flagging}
   gem.description   = <<end
 Feature flags made simple: turn code on or off with Redis controls, allowing
