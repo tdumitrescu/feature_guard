@@ -67,7 +67,7 @@ FeatureGuard.enable :my_feature
 FeatureGuard.enable :another_feature
 FeatureGuard.toggle :my_feature
 FeatureGuard.all_flags
-# {"my_feature"=>"0", "another_feature"=>"1"}
+# {"my_feature"=>false, "another_feature"=>true}
 ```
 
 To retrieve information on all ramp values, use `.all_ramps`:
@@ -76,7 +76,7 @@ To retrieve information on all ramp values, use `.all_ramps`:
 FeatureGuard.set_ramp :my_feature, 50
 FeatureGuard.set_ramp :another_feature, 30
 FeatureGuard.all_ramps
-# {"my_feature"=>"50.0", "another_feature"=>"30.0"}
+# {"my_feature"=>50.0, "another_feature"=>30.0}
 ```
 
 ## Configuration
