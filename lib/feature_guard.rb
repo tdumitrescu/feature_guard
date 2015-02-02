@@ -8,11 +8,11 @@ module FeatureGuard
     attr_writer :redis
 
     def all_flags
-      redis.hgetall(flags_hkey)
+      redis.hgetall(flags_hkey).keys.inject({}) { |h, f| h[f] = enabled? f; h }
     end
 
     def all_ramps
-      redis.hgetall(ramps_hkey)
+      redis.hgetall(ramps_hkey).keys.inject({}) { |h, f| h[f] = ramp_val f; h }
     end
 
     def flags_hkey
