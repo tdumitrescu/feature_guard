@@ -51,17 +51,6 @@ describe FeatureGuard do
     end
   end
 
-  describe '.all_features' do
-    it 'returns information on both enabled and ramped flags' do
-      expect {
-        FeatureGuard.enable feature
-        FeatureGuard.set_ramp 'another feature', 35.7
-      }.to change {
-        FeatureGuard.all_features
-      }.from({}).to({feature.to_s => true, 'another feature' => 35.7})
-    end
-  end
-
   describe '.all_flags' do
     subject { FeatureGuard.all_flags }
 
