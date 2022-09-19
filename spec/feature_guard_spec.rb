@@ -45,7 +45,7 @@ describe FeatureGuard do
     end
 
     context 'when the Redis client blows up or is non-existent' do
-      before { FeatureGuard.stub(redis: nil) }
+      before { allow(FeatureGuard).to receive(:redis) { nil } }
 
       it { is_expected.to eq(false) }
     end
